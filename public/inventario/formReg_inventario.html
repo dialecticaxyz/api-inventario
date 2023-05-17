@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INVENTARIO</title>
+<link href="../css/estilos.css" rel="stylesheet" type="text/css" media="all" />
+<style>
+.info{width: 100px;} 
+</style>
+</head>
+<body onload="startDB();">
+<div class="conteMenu">
+  <span class="icon back" onclick="window.history.back()"></span>
+  <div class="titMenu">REGISTRAR NUEVO ITEM</div>
+  <span></span>  
+</div>   
+
+<div class="formularioV1">
+  <div class="contInput">
+    <input data-itemN id="marca" class="input_ef" type="text" placeholder=" " />
+    <label class="label_ef">Marca</label>
+  </div>
+  <div class="contInput">
+    <input data-itemN id="produ" class="input_ef" type="text" placeholder=" " />
+    <label class="label_ef">Producto</label>
+  </div>
+  <div class="contInput">
+    <input data-itemN id="unidad" class="input_ef" type="text" placeholder=" "/>
+    <label class="label_ef">Unidad de Medida</label>
+  </div>
+  <div class="contInput">
+    <input data-itemN id="cant" class="input_ef" type="number" placeholder=" " />
+    <label class="label_ef">Unidades disponibles</label>
+  </div>
+  <div class="contInput">
+    <input data-itemN id="puComp" class="input_ef" type="number" placeholder=" " />
+    <label class="label_ef">P/U Compra</label>
+  </div>
+  <div class="contInput">
+    <input data-itemN id="puVent" class="input_ef" type="number" placeholder=" " />
+    <label class="label_ef">P/U Venta</label>
+  </div>
+
+  <div class="botones">
+    <div onclick="regItem()" class="btn-material info">Registrar</div> 
+  </div>
+</div>
+
+<script src="../js/apiBakend.js"></script>
+<script src="../js/mainDB.js"></script>
+<script>
+
+async function regItem(){
+  let r = confirm("registrar")
+  if(r){
+    loadData()
+    var f = await form_to_json("itemN") 
+    f["id"] = new Date().getTime().toString()
+    let crea = await createdItem(f)
+    if(crea=="created"){
+      write_DB(f,'inventario').then(()=>{ successDat(true,"itemN") })
+    }
+  }
+}
+
+function init_m(){ }   
+</script> 
+</body>
+</html>

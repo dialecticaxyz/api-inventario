@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>Clientes</title>
+<link href="../css/estilos.css" rel="stylesheet" type="text/css" media="all" />
+<style>
+
+</style>
+</head>
+<body onload="startDB();">
+<div class="conteMenu">
+  <span class="icon back" onclick="window.history.back()"></span>
+  <div class="titMenu">DATOS DEL CLIENTE</div>
+  <span></span>
+</div>
+
+<div class="formularioV1">
+  <div class="contInput">
+    <input data-cliente id="cli" onkeyup="saveText(event)" class="input_ef" type="text" placeholder="" autocomplete="off"/>
+    <label class="label_ef">Cliente</label>
+  </div>
+  <br>
+  <div class="contInput">
+    <input data-cliente="text" id="nit" onkeyup="saveText(event)" class="input_ef" type="number" placeholder="" autocomplete="off"/>
+    <label class="label_ef">Nit</label>
+  </div>
+</div>
+
+<script src="../js/mainDB.js"></script>
+<script>
+async function init_m(){
+  var cliente = storageJson("cliente")
+  await json_to_from("cliente",cliente)
+}
+</script>
+</body>
+</html>

@@ -6,8 +6,7 @@ jspm_packages/
 # dotenv environment variables file
 .env
 .env.test
-# public
-public/
+
 # Logs
 logs
 *.log

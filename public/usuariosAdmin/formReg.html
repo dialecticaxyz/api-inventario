@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es" >
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>REGISTRAR</title>
+<link rel="stylesheet" href="/css/estilos.css">
+</head>
+<style>
+.btn-material{width: 180px;padding: 7px;}
+.tituloForm{  margin-bottom: -20px; }
+#created{background-color: rgb(54, 255, 47);padding: 15px;border-radius: 5px}
+#existe{background-color: rgb(255, 47, 47);padding: 15px;border-radius: 5px;color: white;}
+</style>
+<body onload="startDB()">
+<div class="conteMenu">
+  <span class="icon back" onclick="window.history.back()"></span>
+  <div class="titMenu">REGISTRAR NUEVO USUARIO</div>
+  <span></span>
+</div>
+
+<div class="formularioV1">
+  <div class="contInput">
+    <input data-userReg id="nom" required class="input_ef" type="text" placeholder=""/>
+    <label class="label_ef">Nombre</label>
+  </div>
+  <div class="contInput">
+    <input data-userReg id="user" required class="input_ef" type="number" placeholder=""/>
+    <label class="label_ef">Usuario (celular)</label>
+  </div>
+  <div class="contInput">
+    <input data-userReg id="password" required class="input_ef" type="password" placeholder=""/>
+    <label class="label_ef">Contraseña</label>
+  </div>
+  <div class="txtAndSelector">
+    <div class="textSelec">Rol:</div> 
+    <div class="selectTip1">
+      <select class="selector" data-userReg required onchange="saveText(event)"  id="rol">
+        <option value="ninguno" selected>Ninguno</option>
+        <option value="admin">Administrar</option>
+        <option value="vend">Vender</option>
+        <option value="alma">Almacen</option>
+      </select>
+      <div class="select-icon">
+        <svg focusable="false" viewBox="0 0 104 128" width="25" height="35" class="icon">
+          <path d="m2e1 95a9 9 0 0 1 -9 9 9 9 0 0 1 -9 -9 9 9 0 0 1 9 -9 9 9 0 0 1 9 9zm0-3e1a9 9 0 0 1 -9 9 9 9 0 0 1 -9 -9 9 9 0 0 1 9 -9 9 9 0 0 1 9 9zm0-3e1a9 9 0 0 1 -9 9 9 9 0 0 1 -9 -9 9 9 0 0 1 9 -9 9 9 0 0 1 9 9zm14 55h68v1e1h-68zm0-3e1h68v1e1h-68zm0-3e1h68v1e1h-68z"></path>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="botones">
+    <button class="btn-material info" id="btnGuar" onclick="registrar()">REGISTRAR</button>
+  </div>
+
+  <div id="created" style="display: none;" class="tituloForm">El Usuario ya fue Registado con Exito</div>
+  <div id="existe"  class="tituloForm" style="display:none;">Ya existe Usuario correspondiente al Celular</div>
+</div>
+
+<script src="../js/apiBakend.js"></script>
+<script src="../js/mainDB.js"></script>
+<script>
+
+async function registrar(){
+  document.getElementById("existe").style.display="none"
+
+  let val = await form_to_json("userReg")
+  if(val.rol=="ninguno"){alert("Seleccione Rol");return;}
+  loadData()
+  val["id"] = new Date().getTime().toString()
+  let reg = await createdUse(val)
+  
+  if(reg=="created"){
+    document.getElementById("created").style.display=""
+    document.getElementById("btnGuar").classList.add("hiden")
+  }
+  if(reg=="exists"){
+    document.getElementById("existe").style.display=""
+    document.getElementById("btnGuar").classList.add("hiden")
+  }
+  successDat()
+}
+
+async function init_m(){ }
+</script>
+</body>
+</html>

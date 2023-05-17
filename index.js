@@ -27,15 +27,23 @@ function handleWs(ws, request) {
   ws.on('close', endClient);
 }
 
-app.set('port', process.env.PORT || 80);
+const port = process.env.PORT || 80
 app.set('view engine', 'hbs');
 app.set("views", __dirname + "/views");
-app.use(express.static(path.join(__dirname,'public')));
+var options = {
+  dotfiles: 'ignore',
+  etag: false,
+  extensions: ['htm', 'html','css','js','ico','jpg','jpeg','png','svg'],
+  index: ['index.html'],
+  maxAge: '1m',
+  redirect: false
+}
+app.use(express.static('public', options))
 app.use(cors())
 app.use(express.json()); 
 app.use('/', router);
 app.ws('/', handleWs);
 
-const server = app.listen(app.get('port'),()=>{ 
-  console.log("http://127.0.0.1 : "+ server.address().port) 
-});
+app.listen(port, () => {
+  console.log(`http://localhost:${port}`)
+})

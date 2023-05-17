@@ -17,7 +17,7 @@
     "express": "^4.17.1",
     "express-ws": "^5.0.2",
     "hbs": "^4.2.0",
-    "jsonwebtoken": "^8.2.1",
+    "jsonwebtoken": "^9.0.0",
     "nedb": "^1.8.0",
     "node-localstorage": "^2.2.1",
     "nodemailer": "^6.9.1",

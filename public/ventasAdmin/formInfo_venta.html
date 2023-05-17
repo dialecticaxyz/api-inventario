@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>PEDIDO</title>
+<link href="/css/estilos.css" rel="stylesheet" type="text/css" media="all" />
+<style>
+.formularioV1{ margin-top: 0px; max-width: 90%;}
+#productosList{
+  overflow-y: scroll;
+  height: calc(100vh - 290px);
+  margin-top: 5px;
+}
+
+.filP2 input{width: 50px;}
+.filP2{
+  display: flex;
+  justify-content: space-between;
+}
+.filP2a{display: flex;}
+.filP2a>div{margin-right: 5px;}
+.totalItm{
+  width: 60px;
+  text-align: end;
+}
+</style>
+</head>
+<body onload="startDB();">
+<div class="conteMenu">
+  <span class="icon back" onclick="window.history.back()"></span>
+  <div class="titMenu">DATOS DE LA PROFORMA</div>
+  <span></span> 
+</div> 
+
+<div class="formularioV1">
+  <div class="textDataInf">
+    <div>Cliente :</div>
+    <div data-cli id="cli" ></div>
+  </div>
+  <div class="textDataInf">
+    <div>NIT :</div>
+    <div data-cli id="nit" ></div>
+  </div>
+</div>
+
+<div id="productosList" class="contenItems"></div>
+
+<div class="formularioV1">
+  <div class="ConTextDataInfT2">
+    <div class="textDataInfT2">
+      <div>Acuenta Bs.</div>
+      <div data-dat id="acuenta"></div>
+    </div>
+    <div class="textDataInfT2">
+      <div>Saldo: Bs.</div>
+      <div data-dat id="saldo"></div>
+    </div>
+    <div class="textDataInfT2">
+      <div>Total: Bs.</div>
+      <div data-dat id="total"></div>
+    </div>    
+  </div>
+</div>
+
+<script src="../js/apiBakend.js"></script>
+<script src="../js/mainDB.js"></script>
+<script>
+var idVent = localStorage.getItem('idVenta')
+var carrito
+async function llenarDatos(){
+  let datVen = await read_ID_DB(idVent,'ventas')
+  carrito = datVen["proforma"]
+  rederVenta()
+  let datCli = datVen["cliente"]
+  let writ = await json_to_from("cli",datCli)
+  let wri2 = await json_to_from("dat",datVen)
+}
+
+function rederVenta(){
+  var outerHTML = '';
+  for (const key in carrito) {
+    outerHTML += `
+    <div class="item">
+      <div class="fila1">
+        <div class="fila1a">${carrito[key].produ}</div>
+        <span>${carrito[key].marca}</span>  
+      </div>
+      <div class="filP2">
+        <div class="filP2a">
+          <div>${carrito[key].cant}</div>
+          <div>${carrito[key].unidad}</div>
+        </div>
+        <div class="filP2a">
+          <div>${carrito[key].puVent}</div>
+          <div>p.u.</div>
+        </div>
+        <div class="totalItm">${carrito[key].tot}</div>
+      </div>
+    </div>`    
+  }
+  document.querySelector("#productosList").innerHTML = outerHTML;
+}
+
+function init_m(){ 
+  llenarDatos() 
+}
+</script>   
+</body>
+</html>
